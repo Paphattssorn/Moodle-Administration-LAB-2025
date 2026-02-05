@@ -249,7 +249,7 @@ services:
     restart: unless-stopped
 
   moodle:
-    image: lthub/moodle:latest # หากไม่สามารถโหลด image นี้ได้ ให้ลองใช้ lthub/moodle:education-4.5.8
+    image: lthub/moodle:education-4.5.8  # หากไม่สามารถโหลด image นี้ได้ ให้ลองใช้ lthub/moodle:latest
     container_name: moodle_app
     ports:
       - "80:80" # กรณีที่เครื่องมี Web Server ที่ใช้งาน Port 80 อยู่แล้ว ให้เปลี่ยน Port เป็น "8080:80"  และการใช้งานต้องระบุ Port เป็น //localhost:8080
@@ -320,7 +320,7 @@ cat docker-compose.yml
 
 ```bash
 # ทดสอบการดาวน์โหลด Images (docker-compose จะดาวน์โหลด image โดยอัตโนมัติ ขั้นตอนนี้ใช้เพื่อทดสอบว่าสามารถโหลด image ได้หรือไม่ หากไม่ต้องต้องเปลี่ยนขื่อ image ใหม่ และแก้ไขในไฟล์ docker-compose.yml ให้ชื่อ image ตรงกับที่สามารถโหลดได้จริง )
-docker pull lthub/moodle:latest #หากไม่สามารถโหลดได้ ให้ลองโหลด lthub/moodle:education-4.5.8 หรือดูรายชื่อ image ที่มีใน docker hub
+docker pull lthub/moodle:education-4.5.8 #หากไม่สามารถโหลดได้ ให้ลองโหลด lthub/moodle:latest หรือดูรายชื่อ image ที่มีใน docker hub
 docker pull mariadb:latest
 ```
 
