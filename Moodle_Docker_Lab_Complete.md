@@ -608,9 +608,8 @@ h1 {
 - Favicon: 32x32 px (ICO/PNG)
 
 **บันทึกผลการทดลอง 6-1:**
-```bash
- รูป ผลการปรับแต่ง Theme
-```
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/3fb0ef9c-be25-4469-9335-be271221f230" />
+
 ---
 
 ### 6.2 การจัดการ Course Categories และ Courses
