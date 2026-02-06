@@ -929,21 +929,23 @@ docker exec -i moodle_db mysql -u moodleuser -pmoodlepassword moodle < backup_20
 
 คำตอบ:
 ```
-
+docker image คือ ไฟล์ต้นแบบ ภายในจะมีระบบต่างๆแล้วตั้งค่า ยกตัวอย่าง ไฟล์ติดตั้งเกม
+docker container คือ ระบบที่รันจริง ที่มาจาก image ยกตัวอย่าง เกมที่เปิดเล่นจริง
 ```
 
 **2. จากสถาปัตยกรรมในการทดลอง มี Container กี่ตัว? แต่ละตัวมีหน้าที่อะไร?**
 
 คำตอบ:
 ```
-
+moodle_app ทำหน้าที่รัน
+moodle_db ทำหน้าที่เป็นฐานข้อมูล
 ```
 
 **3. จากการทดลองมีการจัดการ Volume แบบใด มีข้อดีข้อเสียอย่างไร?**
 
 คำตอบ:
 ```
-
+ข้อมูลไม่หายแม้ container ถูกลบ / ถ้าสั่ง docker compose down -v ข้อมูลจะหาย
 ```
 
 **4. Network ใน Docker Compose ทำหน้าที่อะไร? Container สื่อสารกันอย่างไร?**
@@ -951,7 +953,8 @@ docker exec -i moodle_db mysql -u moodleuser -pmoodlepassword moodle < backup_20
 คำตอบ:
 ```
 
-
+Network ทำหน้าที่เชื่อมต่อ Container ให้คุยกันได้
+Container สื่อสารกันโดยใช้ ชื่อ service แทน IP
 ```
 
 
@@ -959,22 +962,27 @@ docker exec -i moodle_db mysql -u moodleuser -pmoodlepassword moodle < backup_20
 
 คำตอบ:
 ```
-
+ไว้กำหนดลำกับการเริ่ม container
 ```
 
 **6. ถ้าต้องการเปลี่ยน Port ของ Moodle  เป็น 9000 ต้องแก้ไขส่วนใดของไฟล์?**
 
 คำตอบ:
 ```
-
-
+ports:
+  - "9000:80"
 ```
 
 **7. Environment Variables `MOODLE_DB_HOST=db` หมายความว่าอย่างไร? ทำไมไม่ใช้ `localhost`?**
 
 คำตอบ:
 ```
+db คือชื่อ service ของ Database Container
+Docker Network จะรู้จักชื่อนี้อัตโนมัติ
 
+เหตุผลที่ไม่ใช้ localhost
+localhost หมายถึง Container ตัวเอง
+Database อยู่คนละ Container จึงต้องใช้ชื่อ service แทน
 ```
 
 
@@ -982,21 +990,27 @@ docker exec -i moodle_db mysql -u moodleuser -pmoodlepassword moodle < backup_20
 
 คำตอบ:
 ```
+ติดตั้งด้วย Docker
+ติดตั้งง่าย รวดเร็ว
+ย้ายเครื่องได้ง่าย
+ควบคุมสภาพแวดล้อมได้เหมือนกันทุกเครื่อง
+ต้องเข้าใจ Docker พื้นฐาน
 
+ติดตั้งแบบปกติ
+เข้าใจง่าย เหมาะกับมือใหม่มาก
+ติดตั้งยากเมื่อเปลี่ยนเครื่อง
+มีปัญหาเวอร์ชัน PHP / Database
 ```
 
 **9. ถ้าต้องการเพิ่ม Container Redis สำหรับ Caching จะต้องแก้ไข docker-compose.yml อย่างไร?**
 
 คำตอบ (เขียน YAML):
 ```yaml
-
-
-
-
-
-
-
-
+redis:
+  image: redis:latest
+  container_name: moodle_redis
+  ports:
+    - "6379:6379"
 ```
 
 
@@ -1006,16 +1020,20 @@ docker exec -i moodle_db mysql -u moodleuser -pmoodlepassword moodle < backup_20
 ```
 วิธีตรวจสอบ:
 
-
+docker logs moodle_app / docker compose ps
 วิธีแก้ไข:
-
+ตรวจสอบค่าใน docker-compose.yml
+ตรวจสอบ MOODLE_DB_HOST ต้องเป็น db
+ถ้าแก้ environment variables ต้องรัน
+docker compose down -v
+docker compose up -d
 ```
 
 **11. ถ้ารัน `docker-compose down -v` จะเกิดอะไรขึ้นกับข้อมูล?**
 
 คำตอบ:
 ```
-
+ข้อมูลทุกอย่างที่อยู๋ใน container จะถูกลบหมดไม่เหลือไรเลย
 
 ```
 
